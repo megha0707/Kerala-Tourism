@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style2.css">
+</head>
+<body background="images/bg.jpg">
+  
+     <!-- navbar starts here -->
+     <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#"><img src="./images/logo1.jpg" width="80" height="60"alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="district.html">Districts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="signup.html">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+          
+          </ul>
+        </div>
+      </nav>  
+  <div class="wrapper">
+      <h1>Sign Up Here</h1>
+      <form id="form" action="index.html" onsubmit="return validate()">
+         <input type="text" placeholder="Enter Name" id="name">
+          <p id="error1"></p>
+          <input type="text" placeholder="Contact No" id="pn" >
+          <p id="error"></p>
+          
+          <input type="text" placeholder="Email" id="email">
+          
+          <span id="msg"></span>
+        
+          <div class="field">
+          <input type="password" placeholder="Password" id="password" onkeyup="trigger()">
+          <span class="hideShowBtn">show</span>
+          <p id="pass"></p>
+          </div>
+          <div class="indicator">
+            <span class="weak"></span>
+            <span class="medium"></span>
+            <span class="strong"></span>
+          </div>
+          <div class="note"></div> 
+          <br>
+          <input type="password" placeholder="Retype Password" id="confirm">
+          <p id=cp></p>
+          <input type="submit" value="Submit">
+      </form>
+    </div>
+   <script>
+    let name=document.getElementById("name");
+    let email=document.getElementById("email");
+    let msg=document.getElementById("msg");
+    let password=document.getElementById("password");
+    let pass=document.getElementById("pass");
+    let pn=document.getElementById("pn");
+    let confirm=document.getElementById("confirm");
+    let cp=document.getElementById("cp");
+    const indicator = document.querySelector(".indicator");
+    const weak = document.querySelector(".weak");
+    const medium = document.querySelector(".medium");
+    const strong = document.querySelector(".strong");
+    const note = document.querySelector(".note");
+    const hideShowBtn = document.querySelector(".hideShowBtn");
+    function validate(){
+    if(name.value == "")
+    {
+      error1.innerHTML = "Field cannot be empty";
+      error1.style.color = "red";
+      
+      return false;
+
+    }
+    
+    let phn=/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if(phn.test(pn.value)){
+    //  error.innerHTML = "valid";
+    //  error.style.color = "green";
+      pn.style.border ='2px solid green';
+      
+     }
+    else{
+      error.innerHTML = "incorrect format";
+      error.style.color = "red";
+      pn.style.border ='2px solid red';
+    
+      }
+    
+    let exp =  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(exp.test(email.value)){
+      //  msg.innerHTML = "valid emailid";
+      //  msg.style.color = "green";
+        email.style.border ='2px solid green';
+       }
+    else{
+      msg.innerHTML = "Please enter an valid email";
+      msg.style.color = "red"; 
+      email.style.border='2px solid red' ;
+      } 
+    let regexp =  /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    if(regexp.test(password.value)){
+     
+     password.style.border = "green";
+     }
+    else{
+     pass.innerHTML = "Password should contain atleast 8 letters including one lowercase,uppercase lettters";
+     pass.style.color = "red";
+     password.style.border="red";
+       
+    }
+    
+    if (phn.test(pn.value) && exp.test(email.value) && regexp.test(password.value) && (password.value == confirm.value))
+    return true;
+    else{
+    cp.innerHTML="please confirm yr password or check all the fields";
+    cp.style.color ="red";
+    
+    return false;
+    }
+  }
+  // strat here
+  let regExpWeak = /[a-z]/;
+let regExpMedium = /\d+/;
+let regExpStrong =  /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+let level = 0;
+
+function trigger(){
+	if(password.value != ""){
+		indicator.style.display = "block";
+		indicator.style.display = "flex";
+
+		if(password.value.match(regExpWeak) || 
+       password.value.match(regExpMedium) || 
+		   password.value.match(regExpStrong))
+			level =1;
+
+		if( ((password.value.match(regExpWeak) && password.value.match(regExpMedium)) || 
+			(password.value.match(regExpMedium) && password.value.match(regExpStrong))|| 
+			(password.value.match(regExpWeak) && password.value.match(regExpStrong))))
+			level =2;
+
+		if( password.value.match(regExpWeak) &&
+      password.value.match(regExpMedium) &&
+			password.value.match(regExpStrong))
+			level =3;
+
+		if(level ==1){
+			weak.classList.add("active");
+			note.style.display = "block";
+			note.textContent = "Your password is too weak";
+			note.classList.add("weak");
+		}
+
+		if(level ==2){
+			medium.classList.add("active");
+			note.textContent = "Your password is medium";
+			note.classList.add("medium");
+		}else{
+			medium.classList.remove("active");
+			note.classList.remove("medium");
+		}
+
+		if(level ==3){
+			medium.classList.add("active");
+			strong.classList.add("active");
+			note.textContent = "Your password is strong";
+			note.classList.add("strong");
+		}else{
+			strong.classList.remove("active");
+			note.classList.remove("strong");
+		}
+
+		hideShowBtn.style.display = "block";
+		hideShowBtn.onclick = function(){
+			if(password.type == "password"){
+				password.type = 'text';
+				hideShowBtn.textContent = "HIDE";
+			} else {
+				password.type = 'password';
+				hideShowBtn.textContent = "SHOW";
+			}
+		}
+
+	} else {
+		indicator.style.display = "none";
+		note.style.display = "none";
+		hideShowBtn.style.display = "none";
+	}
+}
+</script>
+     
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
